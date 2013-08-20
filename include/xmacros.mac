@@ -1,0 +1,35 @@
+;-----------------------------------------------------------------------
+includes    macro   incl:vararg
+            for i, <incl>
+                if  @InStr(1, <i>, <.>)
+                    if  @InStr(1, <i>, <.lib>)
+                        includelib  i
+                    else
+                        include     i
+                    endif
+                else
+                    include     i.inc
+                    includelib  i.lib
+                endif
+            endm
+endm
+
+;-----------------------------------------------------------------------
+mirvars macro args:vararg
+	for arg, <args>
+		invoke	mirvar, 0
+		mov 	&arg, eax
+	endm
+	mirkills macro
+		for arg, <args>
+			invoke	mirkill, &arg
+		endm
+	endm
+endm
+
+;-----------------------------------------------------------------------
+return  macro   x:REQ
+    mov     dword ptr [esp+28], x
+endm
+
+;-----------------------------------------------------------------------
